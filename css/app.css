@@ -224,6 +224,7 @@ footer span{
 	}
 
 	#info_container {
+		margin-top:5%;
 		width: 100%;
 	}
 
@@ -245,7 +246,6 @@ footer span{
 		align-items: center;
 		justify-content: center;
 		width:100%;
-		margin-top: 5vh;
 	}
 
 	.mfic {
@@ -254,7 +254,6 @@ footer span{
 		align-items: center;
 		justify-content: center;
 		text-align: center;
-		height:5vh;
 		margin-bottom: 1vh;
 		width: 95%;
 	}
@@ -263,7 +262,7 @@ footer span{
 		text-decoration: none;
 		background-color: none;
 		background: none;
-		height: 80%;
+		height: 60%;
 		width:50%;
 		color:  white;
 		border:none;
@@ -289,7 +288,6 @@ footer span{
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		height:8vh;
 	}
 
 	.mfic:nth-child(3) h3 {
@@ -310,7 +308,5 @@ footer span{
 	footer span{
 		text-decoration: underline;
 	}
-	#info_container{
-		margin-top: 5vh;
-	}
+	
 }
