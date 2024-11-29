@@ -245,6 +245,7 @@ footer span{
 		align-items: center;
 		justify-content: center;
 		width:100%;
+		margin-top: 5vh;
 	}
 
 	.mfic {
@@ -308,6 +309,9 @@ footer span{
 	
 	footer span{
 		text-decoration: underline;
+	}
+	#info_container{
+		margin-top: 5vh;
 	}
 	
 }
