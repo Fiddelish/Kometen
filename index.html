@@ -1,0 +1,213 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<script>
+    let pdfUrl = 'https://docs.google.com/viewer?url=http%3A%2F%2Fkometen-halmstad.se%2Fonewebmedia%2FMatsedlar%25202020%2Fmeny%2520v48-49-9.pdf' //change this
+
+    let menu = [ //change this
+        [
+            '1. Persiljebiff med gräddsås & stekt potatis',
+            '2. Panerad sejfilé med mos & räkmajonäs',
+            '3. Kycklingsallad med currydressing'
+        ],
+        [
+            '1. Spaghetti med köttfärssås', 
+            '2. Panerad sejfilé med mos & räkmajonäs', 
+            '3. Kycklingsallad med currydressing'
+        ],
+        [
+            '1. Torskrygg på grönsaksbädd med kokt potatis', 
+            '2. Panerad sejfilé med mos & räkmajonäs', 
+            '3. Kycklingsallad med currydressing'
+        ],
+        [
+            '1. Ärtsoppa med pannkakor, sylt & grädde',
+            '2. Panerad sejfilé med mos & räkmajonäs',
+            '3. Kycklingsallad med currydressing'
+        ],
+        [
+            '1. Fläsknoisette med drömgodssås & stekt potatis',
+            '2. Panerad sejfilé med mos & räkmajonäs',
+            '3. Kycklingsallad med currydressing'
+        ]
+    ]
+
+    let dailyPrice = 'Dagens rätt 90:- | Seniorer 85:- | Dagens rätt + dricka 100:- | Lunchkort (11st) 900:-/850:-'
+   
+
+    let days = [
+        ['Måndag'], ['Tisdag'], ['Onsdag'], ['Torsdag'], ['Fredag']
+    ]
+
+    let originalDay = new Date();
+    let originalMonth = originalDay.getMonth()
+    let originalDayNumber = originalDay.getDay()
+
+    let GetWeekNumber = function(){
+        let d = new Date(Date.UTC(originalDay.getFullYear(), originalMonth, originalDay.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+        let yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        let currentWeek = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+        return currentWeek
+    }
+
+    let GetMonthName = function(month){
+        let months = ["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"];
+        let name = months[month];
+        return name
+    }
+
+    let CalculateFuture = function(multi) {
+        let futureDate = new Date();
+        futureDate.setHours(12, 0, 0, 0);
+        futureDate.setDate(futureDate.getDate() + multi);
+        let futureDay = futureDate.getDate() ;
+        let futureMonth = futureDate.getMonth();
+        console.log(futureDay)
+        return [futureDay, futureMonth] ;
+    }
+
+    let LoadDay = function (target){
+        let string = menu[target]
+        let newString =''
+        for(var i = 0, l = string.length; i < l; i++) {
+			newString = newString + '<br>'+ string[i]
+		}
+        return newString
+    }
+    
+    let ShowDaily = function (){
+        let string = LoadDay(originalDayNumber-1)
+        string = string + '<br>' + '<br>'+ dailyPrice
+        document.getElementById("daily_content").innerHTML = string; 
+    }
+
+    let OpenMenu = function() {
+        window.open(pdfUrl, '_blank');
+    }
+    let LoadWeeklyMenu = function (){
+        let weekNumber = GetWeekNumber();
+        
+        $("#weekly").append(`<div>
+            <h1> Vecka `+ weekNumber + `</h1>
+        </div>`);
+
+        let target = document.getElementById("weekly")
+         
+        for(i=0;i<5;i++){
+            let string = LoadDay(i)
+            let future = CalculateFuture(i);
+            let futureDay = future[0]
+            let futureMonth = future[1]
+            console.log(futureDay)
+            let monthName = GetMonthName(futureMonth);
+            target.innerHTML = target.innerHTML + `<div>
+              <h1 class="weekDay">`+ days[i] +` `+ futureDay + ` `+ monthName +`</h1>
+              <h3 class="weekDayContent">`+ string +`</h3>
+            </div>`
+            //$("#weekly").append(`<div>
+            //  <h1 class="weekDay">`+ days[i] +` `+ date + ` `+ monthName +`</h1>
+            //  <h3 class="weekDayContent">`+ string +`</h3>
+            //</div>`);
+        }
+    }
+
+    window.onload = function (e) {
+    	ShowDaily()
+        LoadWeeklyMenu()
+    }
+
+</script>
+
+<body>
+    <div id="container">
+        <header>
+            <div id="logo_container">
+                <div class="header_space">
+                    <h2>Öppet alla Vardagar</h2>
+                    <h2>11.00 - 13.30</h2>
+                </div>
+                <img id="header_logo"src="img/logo.jpg">
+                <div class="header_space"><h1>035-214344</h1></div>
+            </div>
+            <div id="mobile_contact_n_time"><!-- only visible during mobile view -->
+                <h2>Öppet alla Vardagar</h2>
+                <h2>11.00 - 13.30</h2>
+                <h1>035-214344</h1>
+            </div>
+        </header>
+
+        <div id="main">
+            <div id="info_container">
+                <div class="info_space" id="daily_container">
+                    <h1 id="daily_headline">Dagens</h1>
+                    <h3 id="daily_content">
+                </div>              
+            </div>
+            <div id="weekly"></div>
+        </div> 
+
+        <footer>
+            <div class="footer_space">
+                <h3>Kontakta oss</h3>
+                <a href="tel:035214344"><p><i class="fa-solid fa-phone"></i>&nbsp;<span>035-214344</span></p></a>
+                <a href="mailto:kometen.hstd@gmail.com"><p><i class="fa-solid fa-envelope"></i>&nbsp;<span>kometen.hstd@gmail.com</span></p></a>
+                <a href="https://www.google.com/maps?q=Snickaregatan+5,+302+47+Halmstad,+Sweden" target="_blank">
+                    <p><i class="fa-solid fa-location-dot"></i>&nbsp;<span>Snickaregatan 5, 302 47 Halmstad, Sweden</span></p>
+                </a>
+            </div>
+
+            <div class="footer_space">
+                <button id="pdf_download" onclick="OpenMenu()"> 
+                    <p>Ladda ner menyn</p>
+                    <span><i class="fa-solid fa-file-pdf"></i></span>
+                </button>
+                
+            </div>
+
+            <div class="footer_space">
+                <p>Vi reserverar oss för slutförsäljning, tryckfel i menyn och att vi kan behöva ändra i menyn med kort varsel pga. omständigheter som vi inte råder över.</p>
+            </div>
+
+            <div class="footer_space"></div>
+
+            <div class="footer_space">
+                <p>&copy; 2024 Restaurang Kometen. All rights reserved.</p>
+            </div>
+        </footer>
+
+        <div id="mobile_footer">
+            <div class='mfic'>
+                <button id="pdf_download" onclick="OpenMenu()"> 
+                    <p>Ladda ner menyn <i class="fa-solid fa-file-pdf"></i></p>
+                </button>
+            </div>
+
+            <div class='mfic'>
+                <p>Vi reserverar oss för slutförsäljning, tryckfel i menyn och att vi kan behöva ändra i menyn med kort varsel pga. omständigheter som vi inte råder över.</p>
+            </div>
+            
+            
+            <div class='mfic'>
+                <h3>Kontakta oss</h3>
+                <a href="tel:035214344"><p><i class="fa-solid fa-phone"></i>&nbsp;<span>035-214344</span></p></a>
+              
+                <a href="mailto:kometen.hstd@gmail.com"><p><i class="fa-solid fa-envelope"></i>&nbsp;<span>kometen.hstd@gmail.com</span></p></a>
+              
+                <a href="https://www.google.com/maps?q=Snickaregatan+5,+302+47+Halmstad,+Sweden" target="_blank">
+                    <p><i class="fa-solid fa-location-dot"></i>&nbsp;<span>Snickaregatan 5, 302 47 Halmstad, Sweden</span></p>
+                </a>
+            </div>
+            <div class='mfic'>
+                <p>&copy; 2024 Restaurang Kometen. All rights reserved.</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
